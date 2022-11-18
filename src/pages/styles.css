@@ -1,0 +1,18 @@
+
+
+.background { 
+    background:url(https://web.fullmovil.com.co/wp-content/uploads/2021/11/Full-movil-banner-home-3.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.background-overlay {
+    background-image: url(https://web.fullmovil.com.co/wp-content/uploads/2021/11/Full-movil-banner-home-2.png);
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    background-size: 85% auto;
+    opacity: 1;
+    transition: background 0.3s, border-radius 0.3s, opacity 0.3s;
+}

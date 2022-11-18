@@ -1,0 +1,185 @@
+[
+    {
+        "_id": "610aa0b864998ca4c3379422",
+        "code": 2,
+        "description": "Recarga de Celular",
+        "imageUrl": "",
+        "subtypes": [
+            {
+                "_id": "62a793f21c222882978f4542",
+                "code": "0",
+                "description": "Recarga Abierta",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logo_recargas_celular.png"
+            }
+        ],
+        "seqId": 2,
+        "maxValue": 250000,
+        "minValue": 1000,
+        "enabled": true,
+        "gatewayId": 1,
+        "variablePrice": true,
+        "deviceAllowed": 3,
+        "deviceAllowedMsg": "iOs, Android"
+    },
+    {
+        "_id": "610aa18a64998ca4c3379423",
+        "code": 7,
+        "description": "Paquetes de Celular",
+        "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logo_recargas_celular.png",
+        "subtypes": [
+            {
+                "_id": "62850d370b39766e0523dd66",
+                "code": "12",
+                "description": "Tigo",
+                "imageUrl": "https://rinn.s3.amazonaws.com/logoTigo.png"
+            },
+            {
+                "_id": "62850de80b39766e0523dd67",
+                "code": "13",
+                "description": "Claro",
+                "imageUrl": "https://rinn.s3.amazonaws.com/logoClaro.png"
+            },
+            {
+                "_id": "62850e620b39766e0523dd68",
+                "code": "18",
+                "description": "Virgin",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logo_vmco.png"
+            },
+            {
+                "_id": "62850eb10b39766e0523dd69",
+                "code": "22",
+                "description": "Movistar",
+                "imageUrl": "https://rinn.s3.amazonaws.com/movistarLogo.png"
+            },
+            {
+                "_id": "62850f560b39766e0523dd6a",
+                "code": "25",
+                "description": "ETB",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoETB.png"
+            },
+            {
+                "_id": "628513ec0b39766e0523dd6b",
+                "code": "41",
+                "description": "Éxito",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logo_movil_exito.png"
+            },
+            {
+                "_id": "628514530b39766e0523dd6c",
+                "code": "60",
+                "description": "WOM",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/womLogo.png"
+            }
+        ],
+        "seqId": 7,
+        "maxValue": 0,
+        "minValue": 0,
+        "enabled": true,
+        "gatewayId": 1,
+        "variablePrice": false,
+        "deviceAllowed": 2,
+        "deviceAllowedMsg": "Android"
+    },
+    {
+        "_id": "610aa1c164998ca4c3379424",
+        "code": 3,
+        "description": "Pines\nEntretenimiento\n",
+        "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logo_pines_entretenimiento.png",
+        "subtypes": [
+            {
+                "_id": "6113cae22e88bccd0b8542d0",
+                "code": "35",
+                "description": "Netflix",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoNetflix.png"
+            },
+            {
+                "_id": "6113cb052e88bccd0b8542d1",
+                "code": "63",
+                "description": "Amazon Prime",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoAmazonPrime.png"
+            },
+            {
+                "_id": "6113cb182e88bccd0b8542d2",
+                "code": "26",
+                "description": "Xbox Live",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoXboxLive.png"
+            },
+            {
+                "_id": "61f99151eede859336572176",
+                "code": "27",
+                "description": "IMVU",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoImvu.png"
+            },
+            {
+                "_id": "628660f70b39766e0523dd79",
+                "code": "28",
+                "description": "Microsoft Office",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoOffice.png"
+            },
+            {
+                "_id": "628661d00b39766e0523dd7a",
+                "code": "29",
+                "description": "Play Station",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoPlayStation2.png"
+            },
+            {
+                "_id": "6286627c0b39766e0523dd7b",
+                "code": "31",
+                "description": "Rixty",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoRixty.png"
+            },
+            {
+                "_id": "628662bf0b39766e0523dd7c",
+                "code": "33",
+                "description": "Spotify",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoSpotify.png"
+            },
+            {
+                "_id": "6286639b0b39766e0523dd7d",
+                "code": "34",
+                "description": "Xbox Suscriptions",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoXboxSubcriptions.png"
+            },
+            {
+                "_id": "628666690b39766e0523dd7e",
+                "code": "55",
+                "description": "Play Station Suscriptions",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoPlayStationSubcriptions.png"
+            },
+            {
+                "_id": "628666b10b39766e0523dd7f",
+                "code": "56",
+                "description": "Noggin",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoNoggin.png"
+            },
+            {
+                "_id": "628666da0b39766e0523dd80",
+                "code": "57",
+                "description": "FreeFire",
+                "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logoFreeFireUltimo.png"
+            }
+        ],
+        "seqId": 3,
+        "maxValue": 100000,
+        "minValue": 1000,
+        "enabled": true,
+        "gatewayId": 1,
+        "variablePrice": false,
+        "deviceAllowed": 2,
+        "deviceAllowedMsg": "Android"
+    },
+    {
+        "_id": "636175a3e471218da0dc49eb",
+        "code": 10,
+        "description": "Seguros Colpatria",
+        "imageUrl": "https://rinn.s3.amazonaws.com/appImages/logo_servicios_publicos.png",
+        "subtypes": [],
+        "seqId": 9,
+        "maxValue": 100000,
+        "minValue": 1000,
+        "enabled": true,
+        "gatewayId": 2,
+        "variablePrice": false,
+        "deviceAllowed": 2,
+        "deviceAllowedMsg": "Android"
+    }
+]
