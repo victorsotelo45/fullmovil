@@ -16,7 +16,7 @@ function DigitalStore() {
 
   const NavOption = ({ type }) => {
     return (
-      <div className="ml-10 flex items-baseline">
+      <div className="flex items-baseline">
         <NavLink
           to={`../${type.code}`}
           relative="path"
@@ -51,8 +51,8 @@ function DigitalStore() {
     <div >
       <nav className="bg-[#EC9D13]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between lg:h-16">
-            <div className="flex items-center">
+          <div className="flex items-center w-full xl:h-16">
+            <div className="flex flex-wrap w-full items-center justify-between">
               <Link to="/" className="block flex-shrink-0" aria-label="Cruip">
                 <img
                   className="h-20 w-30"
@@ -61,7 +61,7 @@ function DigitalStore() {
                 />
               </Link>
               <div className="hidden md:block">
-                <div className="lg:ml-5 flex items-baseline space-x-4">
+                <div className="flex items-baseline space-x-4">
                   {types.map((type) => (
                     <NavOption key={type.code} type={type} />
                   ))}

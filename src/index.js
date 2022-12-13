@@ -5,10 +5,10 @@ import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* <Router> */}
-      <HashRouter>
+    <Router>
+      {/* <HashRouter> */}
       <App />
-      </HashRouter>
-    {/* </Router> */}
+      {/* </HashRouter> */}
+    </Router>
   </React.StrictMode>
 );

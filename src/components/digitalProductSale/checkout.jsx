@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Summary from "./summary";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
+import cookie from "js-cookie";
 
 const Checkout = ({ page, setPage, formData, setFormData }) => {
   const inputReference = useRef(null);
@@ -56,6 +57,9 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
       customerCellphone: values.phoneNumber, customerPaymentMethod: values.paymentMethod})
       values.paymentMethod == 1 && setPage(page + 1);
       // navigate(`/payment?value=${values.productValue}&reference=WO0440400`);
+      cookie.set('formData', JSON.stringify(formData), {
+        path: "/"
+      });
     },
   });
 
