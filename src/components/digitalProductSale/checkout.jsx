@@ -2,14 +2,22 @@ import { stringify } from "postcss";
 import { useState, useEffect, useRef } from "react";
 import Summary from "./summary";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = ({ page, setPage, formData, setFormData }) => {
   const inputReference = useRef(null);
+  const navigate = useNavigate();
 
   // A custom validation function. This must return an object
   // which keys are symmetrical to our values/initialValues
   const validate = (values) => {
     const errors = {};
+
+    if (values.productValue == '') {
+      errors.productValue = "campo obligatorio";
+    } else if (values.productValue < 1000) {
+      errors.productValue = "Valor inválido";
+    }
 
     if (!values.phoneNumber) {
       errors.phoneNumber = "campo obligatorio";
@@ -37,15 +45,17 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
   // be called when the form is submitted
   const formik = useFormik({
     initialValues: {
+      productValue: formData.productValue,
       phoneNumber: formData.customerCellphone,
       email: formData.customerMail,
       paymentMethod: formData.customerPaymentMethod,
     },
     validate,
     onSubmit: (values) => {
-      setFormData({...formData, customerMail: values.email,
+      setFormData({...formData, productValue: values.productValue, customerMail: values.email,
       customerCellphone: values.phoneNumber, customerPaymentMethod: values.paymentMethod})
       values.paymentMethod == 1 && setPage(page + 1);
+      // navigate(`/payment?value=${values.productValue}&reference=WO0440400`);
     },
   });
 
@@ -88,6 +98,35 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
           formData={formData}
           setFormData={setFormData}
         />
+        
+        <div className="w-full mt-3 mr-auto mb-3 ml-auto lg:mb-0 lg:mt-2">
+          <label className="block font-semibold text-sm text-gray-700">
+            Valor
+          </label>
+          <div className="mt-1">
+            <input
+              type="tel"
+              ref={inputReference}
+              className='lg:h-[5vh] px-3 sm:text-sm h-10 w-full rounded-md shadow-sm border
+            border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100 focus:bg-white'
+              placeholder="ingrese un valor"
+              name="productValue"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.productValue}
+              pattern="[0-9]{4,10}"
+              required
+              onKeyPress={handleKeyPress}
+              disabled={formData.type!=2}
+            />
+            {formik.errors.productValue && formik.touched.productValue && (
+              <div className="italic text-red-500">
+                {formik.errors.productValue}
+              </div>
+            )}
+          </div>
+        </div>
+
 
         <div className="w-full mt-3 mr-auto mb-3 ml-auto lg:mb-0 lg:mt-2">
           <label className="block font-semibold text-sm text-gray-700">
@@ -96,8 +135,8 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
           <div className="mt-1">
             <input
               type="tel"
-              ref={inputReference}
-              className="lg:h-[5vh] sm:text-sm h-10 w-full rounded-md shadow-sm border
+              ref={formData.type!=2 ? inputReference : undefined}
+              className="lg:h-[5vh] px-3 sm:text-sm h-10 w-full rounded-md shadow-sm border
             border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100 focus:bg-white"
               placeholder="ingrese el numero
             celular"
@@ -105,7 +144,8 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.phoneNumber}
-              pattern="[0-9]{0,10}"
+              pattern="[0-9]{10}"
+              required
               onKeyPress={handleKeyPress}
             />
             {formik.errors.phoneNumber && formik.touched.phoneNumber && (
@@ -122,7 +162,7 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
           <div className="mt-1">
             <input
               type="email"
-              className="lg:h-[5vh] sm:text-sm h-10 w-full rounded-md shadow-sm border
+              className="lg:h-[5vh] px-3 sm:text-sm h-10 w-full rounded-md shadow-sm border
             border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100 focus:bg-white"
               placeholder="correo@correo.com"
               name="email"
@@ -142,7 +182,7 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
           </label>
           <div>
             <select
-              className="lg:h-[5vh] w-full rounded-md pr-6 pl-3 border text-gray-700 border-gray-300
+              className="h-[5vh] mb-2 w-full rounded-md pr-6 pl-3 border text-gray-700 border-gray-300
             placeholder-gray-300 focus:shadow-outline cursor-pointer"
               style={{ fontFamily: "Arial" }}
               name="paymentMethod"

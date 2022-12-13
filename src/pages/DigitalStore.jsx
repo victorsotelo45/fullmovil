@@ -16,27 +16,25 @@ function DigitalStore() {
 
   const NavOption = ({ type }) => {
     return (
-      <div>
-        <div className="ml-10 flex items-baseline space-x-4">
-          <NavLink
-            to={`../${type.code}`}
-            relative="path"
-            className={({ isActive }) =>
-              `hover:bg-[#fcb900] text-[#28367B] px-3 py-2 rounded-md text-sm font-bold ${
-                isActive && "bg-[#fcb900]"
-              }`
-            }
-          >
-            <div className="flex-shrink-0 items-center justify-center ">
-              <img
-                className="h-12 w-12 mx-0"
-                src={type.imageUrl}
-                alt="Recargas Celular"
-              />
-              <div>{type.description}</div>
-            </div>
-          </NavLink>
-        </div>
+      <div className="ml-10 flex items-baseline">
+        <NavLink
+          to={`../${type.code}`}
+          relative="path"
+          className={({ isActive }) =>
+            `hover:bg-[#fcb900] text-[#28367B] px-3 py-2 rounded-md text-sm font-bold ${
+              isActive ? "bg-[#fcb900]" : ""
+            }`
+          }
+        >
+          <div className="items-center justify-center">
+            <img
+              className="h-12 w-12 mx-0"
+              src={type.imageUrl}
+              alt="Recargas Celular"
+            />
+            <div className="lg:whitespace-nowrap">{type.description}</div>
+          </div>
+        </NavLink>
       </div>
     );
   };
@@ -50,10 +48,10 @@ function DigitalStore() {
   };
 
   return (
-    <div>
+    <div >
       <nav className="bg-[#EC9D13]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between lg:h-16">
             <div className="flex items-center">
               <Link to="/" className="block flex-shrink-0" aria-label="Cruip">
                 <img
@@ -63,7 +61,7 @@ function DigitalStore() {
                 />
               </Link>
               <div className="hidden md:block">
-                <div className="ml-10 flex items-baseline space-x-4">
+                <div className="lg:ml-5 flex items-baseline space-x-4">
                   {types.map((type) => (
                     <NavOption key={type.code} type={type} />
                   ))}

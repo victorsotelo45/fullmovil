@@ -1,25 +1,35 @@
 import axios from "axios";
 
 import cellphoneRecharge from "../components/icons/cellphoneRecharge.svg"
+import cellphonePackages from "../components/icons/cellphonePackages.svg"
 import entertaiment from "../components/icons/entertaiment.svg"
 import bets from "../components/icons/bets.svg"
 import games from "../components/icons/games.svg"
 import services from "../components/icons/services.svg"
+import insurance from "../components/icons/insurance.svg"
 //import { types } from "../components/data/productTypes";
 
 
-const url = "https://testapi.rinnapp.co/mobileWallet/productTypes?enabled=true";
+const url = "https://testapi.rinnapp.co/mobileWallet/productTypes";
 const mobileWalletUrl = "https://testapi.rinnapp.co/mobileWallet";
 
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjVlMzE3NjBiODI1NWQ3ZTZhNmJkZmQiLCJkZXZpY2VJZCI6IjY3NDBkNzM2NTQ2NWJiNWMiLCJrZXkiOiJnYWNjIiwiaWF0IjoxNjY2OTE0OTgzLCJleHAiOjE2Njk1MDY5ODMsInN1YiI6Imd1ZXN0In0.Yd7R9n5cm6gjoxgh99S-FYVrsFS1rZlgMEUr2GP6xQE";
+const coverRecharges = 'https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recargas_celular_1024x1024.png';
+const coverEntertaiment= '	https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recarga_entretenimiento_1024x1024.png';
+const coverGames = 'https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recargas_juegos1024x1024.png';
+const coverServices = 'https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recargs_licencias_1024x1024.png';
+const coverInsurance = 'https://web.fullmovil.com.co/wp-content/uploads/2022/12/Seguros-Fullmovil-recargas.png';
+const coverBets = 'https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recargas_apuestas_1024x1024.png';
 
 const types =
 [
-    {"code":"7", "description":"Recargas Celular","imageUrl":cellphoneRecharge},
-    {"code":"5", "description":"Entretenimiento",imageUrl:entertaiment},
-    {"code":"4", "description":"Juegos",imageUrl:games},
-    {"code":"3", "description":"Entretenimiento",imageUrl:entertaiment},
-    {"code":"2", "description":"Apuestas",imageUrl:bets},
+    {"code":"2", "description":"Recargas Celular",imageUrl:cellphoneRecharge, coverImage: coverRecharges},
+    {"code":"7", "description":"Paquetes Celular","imageUrl":cellphonePackages, coverImage: coverRecharges },
+    {"code":"15", "description":"Entretenimiento",imageUrl:entertaiment, coverImage: coverEntertaiment},
+    {"code":"13", "description":"Juegos",imageUrl:games, coverImage: coverGames},
+    {"code":"14", "description":"Servicios",imageUrl:services, coverImage: coverServices},
+    {"code":"10", "description":"Seguros",imageUrl:insurance, coverImage: coverInsurance},
+    {"code":"16", "description":"Apuestas",imageUrl:bets, coverImage: coverBets},
 ]
 
 export const getType = async (code) => {  
@@ -105,6 +115,7 @@ export const getProducts = async (type,subType) => {
 
   } catch (error) {
     console.error(error, error.stack);
+  
   }
 
 };

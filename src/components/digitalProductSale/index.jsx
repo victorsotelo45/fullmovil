@@ -7,16 +7,20 @@ import CardPayment from "../CardPayment";
 import { Stepper, Step, StepButton } from "@mui/material";
 import { getType } from "../../services/digitalProducts"
 import { PaymentValidate } from "./PaymentValidate";
+import { useNavigate } from 'react-router-dom';
 
 function DigitalProductSale({ typeCode }) {
 
   const [page, setPage] = useState(0);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     type: typeCode,
     typeDescription: "",
     typeImageUrl: "",
+    coverImageUrl: "",
     subType: "",
     subTypeDescription: "",
     subTypeImageUrl: "",
@@ -62,7 +66,8 @@ function DigitalProductSale({ typeCode }) {
       ...formData,
       type: typeCode,
       typeDescription: typeFound.description,
-      typeImageUrl: typeFound.ImageUrl
+      typeImageUrl: typeFound.ImageUrl,
+      coverImageUrl: typeFound.coverImage
     })
   };
 
@@ -120,18 +125,21 @@ function DigitalProductSale({ typeCode }) {
         <div className="lg:gap-x-10 lg:grid-cols-12 lg:gap-y-8 grid-cols-1 grid">
           <div className="lg:col-span-5 lg:block hidden">
             <img
-              src="https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recargas_celular_1024x1024.png"
+              src={formData.coverImageUrl}
               className=" rounded-2xl object-cover"
             />
           </div>
           <div className="lg:col-span-7 pt-2 pr-2 pb-2 pl-2">
-            <div id="Stepper" className="flex p-0">
+            <div id="Stepper" className="flex p-0 mb-2">
               <button
                 className="h-full w-[5%]"
                 onClick={() => {
-                  setPage(page - 1);
+                  if(page == 0 ||  formData.type == 2 && page == 1){
+                    navigate('/');
+                  }else{
+                    setPage(page - 1);
+                  }
                 }}
-                disabled={page == 0}
               >
                 <svg
                   stroke="#001174"

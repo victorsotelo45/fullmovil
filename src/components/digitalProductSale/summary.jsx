@@ -52,13 +52,13 @@ const Summary = ({ page, setPage, formData, setFormData }) => {
             <p className="block font-semibold text-sm text-gray-700">
               Producto:{" "}
             </p>
-            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+            <p className="text-sm font-medium text-gray-900 px-3 pb-1 truncate dark:text-white">
               {formData.productDescription}
             </p>
           </div>
-          <div className="inline-flex items-center text-sm font-medium text-gray-900">
+          {/* <div className="inline-flex items-center text-sm font-medium text-gray-900">
             ${formData.productValue}
-          </div>
+          </div> */}
           <p className="block text-sm font-medium text-gray-900">Editar</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"

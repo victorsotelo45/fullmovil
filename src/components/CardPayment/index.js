@@ -235,7 +235,7 @@ export default class CardPayment extends React.Component {
               <input
                 type="tel"
                 name="expiry"
-                placeholder="FechaExpiración"
+                placeholder="Fecha expiración MM/AA"
                 pattern="\d\d/\d\d"
                 defaultValue={this.state.expiry}
                 required

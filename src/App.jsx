@@ -15,6 +15,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
 import DigitalStore from './pages/DigitalStore';
+import { PaymentsMethodsRoutes } from './components/paymentMethods/routes/PaymentsMethodsRoutes';
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/payment/*" element={< PaymentsMethodsRoutes/>} />
       </Routes>
     </>
   );
