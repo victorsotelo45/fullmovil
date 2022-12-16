@@ -3,7 +3,6 @@ import { getSubTypes } from "../../services/digitalProducts";
 import "./styles.css";
 
 function ProductSubTypes({ page, setPage, formData, setFormData }) {
-  console.log("FormData" + JSON.stringify(formData));
 
   const [subTypes, setSubTypes] = useState([]);
 
@@ -16,7 +15,6 @@ function ProductSubTypes({ page, setPage, formData, setFormData }) {
   };
 
   const handleClick = (props) => {
-    console.log("clicked SubType " + JSON.stringify(props));
     const { code, description, imageUrl } = props;
 
     setFormData({

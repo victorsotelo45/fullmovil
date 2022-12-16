@@ -17,7 +17,6 @@ function ProductList({ page, setPage, formData, setFormData }) {
   }, []);
 
   const handleClick = (props) => {
-    console.log("clicked product " + props.code);
     const { code, description, value, imageUrl } = props;
     
     setFormData({

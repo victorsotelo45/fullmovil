@@ -1,13 +1,10 @@
-import { stringify } from "postcss";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Summary from "./summary";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
-import cookie from "js-cookie";
 
 const Checkout = ({ page, setPage, formData, setFormData }) => {
   const inputReference = useRef(null);
-  const navigate = useNavigate();
+  const options = ['Seleccione Método', 'Tarjeta', 'PSE', 'AirTm'];
 
   // A custom validation function. This must return an object
   // which keys are symmetrical to our values/initialValues
@@ -54,12 +51,8 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
     validate,
     onSubmit: (values) => {
       setFormData({...formData, productValue: values.productValue, customerMail: values.email,
-      customerCellphone: values.phoneNumber, customerPaymentMethod: values.paymentMethod})
-      values.paymentMethod == 1 && setPage(page + 1);
-      // navigate(`/payment?value=${values.productValue}&reference=WO0440400`);
-      cookie.set('formData', JSON.stringify(formData), {
-        path: "/"
-      });
+      customerCellphone: values.phoneNumber, customerPaymentMethod: values.paymentMethod, paymentMethodDescription: options[values.paymentMethod]})
+      values.paymentMethod != 3 && setPage(page + 1);
     },
   });
 
@@ -91,7 +84,7 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
   }, []);
 
   return (
-    <div className="w-full ">
+    <div className="w-full lg:h-[60vh] lg:overflow-y-scroll">
       <p className="md:text-2xl text-[#28367B] font-['Roboto', Sans-serif] font-extrabold tracking-tight leading-snug mb-4 lg:mb-0 text-left">
         Finalizar
       </p>
@@ -195,13 +188,16 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
               defaultValue={formik.values.paymentMethod}
             >
               <option style={{ fontFamily: "Arial" }} value="0">
-                Seleccione Método
+              {options[0]}
               </option>
               <option style={{ fontFamily: "Arial" }} value="1">
-                Tarjeta
+                {options[1]}
               </option>
               <option style={{ fontFamily: "Arial" }} value="2">
-                AirTm
+              {options[2]}
+              </option>
+              <option style={{ fontFamily: "Arial" }} value="3">
+              {options[3]}
               </option>
             </select>
             {formik.errors.paymentMethod && formik.touched.paymentMethod && (
@@ -212,7 +208,7 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
           </div>
         </div>
         <button
-          className="w-full text-center text-xl font-semibold bg-gray-800 text-white pt-3 pr-3 pb-3 pl-3
+          className="sticky bottom-0 w-full text-center text-xl font-semibold bg-gray-800 text-white pt-3 pr-3 pb-3 pl-3
         hover:bg-gray-600 rounded-md"
           style={{ fontFamily: "Arial" }}
           type="submit"

@@ -67,8 +67,8 @@ export const PaymentMethods = () => {
 
   return (
     <>
-    <div className="bg-white rounded-xl p-3 mb-3">
-      <p>Número de pedido: {reference}</p>
+    <div className="bg-green-500 rounded-xl py-4 px-6 mb-3">
+      <p className="text-gray-800 mb-3">Número de pedido: {reference}</p>
       <p className="font-semibold">Total: {value}</p>
     </div>
     <h1 className="flex justify-start mb-0">Medios de pago</h1>

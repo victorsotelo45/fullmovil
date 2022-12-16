@@ -175,11 +175,10 @@ export const createTransaction = async (type, body) => {
         "Content-Type": "application/json",
       },
     });
-    return resp;
+    return resp.data;
   } catch (error) {
     console.error(error, error.stack);
-    console.log(error.response.data)
-    return;
+    return error.response.data;
   }
 };
 

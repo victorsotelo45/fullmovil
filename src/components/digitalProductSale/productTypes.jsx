@@ -16,7 +16,6 @@ function ProductTypes() {
   };
 
   const handleClick = (props) => {
-    console.log("clicked type " + JSON.stringify(props.code))   
     navigate('/productType/'+props.code)
   };
 

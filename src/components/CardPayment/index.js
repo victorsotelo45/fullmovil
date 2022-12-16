@@ -29,7 +29,7 @@ export default class CardPayment extends React.Component {
     focused: "",
     formData: null,
     isLoading: false,
-    isSuccess: false,
+    isSuccess: true,
   };
 
   getPayment = () => {
@@ -95,86 +95,6 @@ export default class CardPayment extends React.Component {
     const { name, number, expiry, cvc, focused, issuer, formData } = this.state;
 
     return (
-      /* <div key="Payment">
-         <div className="App-payment">
-           <h1>React Credit Cards</h1>
-           <h4>Beautiful credit cards for your payment forms</h4>
-           <Card
-             number={number}
-             name={name}
-             expiry={expiry}
-             cvc={cvc}
-             focused={focused}
-             callback={this.handleCallback}
-           />
-           <form ref={c => (this.form = c)} onSubmit={this.handleSubmit}>
-             <div className="form-group">
-               <input
-                 type="tel"
-                 name="number"
-                 className="form-control"
-                 placeholder="Card Number"
-                 pattern="[\d| ]{16,22}"
-                 required
-                 onChange={this.handleInputChange}
-                 onFocus={this.handleInputFocus}
-               />
-               <small>E.g.: 49..., 51..., 36..., 37...</small>
-             </div>
-             <div className="form-group">
-               <input
-                 type="text"
-                 name="name"
-                 className="form-control"
-                 placeholder="Name"
-                 required
-                 onChange={this.handleInputChange}
-                 onFocus={this.handleInputFocus}
-               />
-             </div>
-             <div className="row">
-               <div className="col-6">
-                 <input
-                   type="tel"
-                   name="expiry"
-                   className="form-control"
-                   placeholder="Valid Thru"
-                   pattern="\d\d/\d\d"
-                   required
-                   onChange={this.handleInputChange}
-                   onFocus={this.handleInputFocus}
-                 />
-               </div>
-               <div className="col-6">
-                 <input
-                   type="tel"
-                   name="cvc"
-                   className="form-control"
-                   placeholder="CVC"
-                   pattern="\d{3,4}"
-                   required
-                   onChange={this.handleInputChange}
-                   onFocus={this.handleInputFocus}
-                 />
-               </div>
-             </div>
-             <input type="hidden" name="issuer" value={issuer} />
-             <div className="form-actions">
-               <button className="btn btn-primary btn-block">PAY</button>
-             </div>
-           </form>
-           {formData && (
-             <div className="App-highlight">
-               {formatFormData(formData).map((d, i) => <div key={i}>{d}</div>)}
-             </div>
-           )}
-           <hr style={{ margin: '60px 0 30px' }} />
-           
-           <hr style={{ margin: '30px 0' }} />
-          
-         </div>
- 
-       </div> */
 
       <div className="w-full">
         {this.state.isLoading ? (

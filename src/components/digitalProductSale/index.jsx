@@ -5,16 +5,17 @@ import { useState, useEffect } from "react";
 import "./styles.css";
 import CardPayment from "../CardPayment";
 import { Stepper, Step, StepButton } from "@mui/material";
-import { getType } from "../../services/digitalProducts"
+import { getType } from "../../services/digitalProducts";
 import { PaymentValidate } from "./PaymentValidate";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { FormPse } from "../paymentMethods/pse/FormPse";
+import cookie from "js-cookie";
 
 function DigitalProductSale({ typeCode }) {
-
   const [page, setPage] = useState(0);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     type: typeCode,
@@ -30,35 +31,46 @@ function DigitalProductSale({ typeCode }) {
     productValue: 0,
     paymentCode: "",
     paymentDescription: "",
-    paymentImageUrl: "",    
+    paymentImageUrl: "",
+    paymentId: "",
+    digitalProductOrderId: "",
     customerMail: "",
     customerCellphone: "",
     customerPaymentMethod: 0,
+    paymentMethodDescription: '',
     country: "",
     countryCode: "",
     countryImageUrl: "",
-    cardNumber: '',
-    cardUserName: '',
-    cardExpiry: '',
-    cardCvc: ''
+    cardNumber: "",
+    cardUserName: "",
+    cardExpiry: "",
+    cardCvc: "",
   });
 
-  const clear = ()=>{
+  const clear = () => {
     setFormData({
-      ...formData,   
+      ...formData,
       customerMail: "",
       customerCellphone: "",
-      cardNumber: '',
-      cardUserName: '',
-      cardExpiry: '',
-      cardCvc: ''
-    })
-  }
+      cardNumber: "",
+      cardUserName: "",
+      cardExpiry: "",
+      cardCvc: "",
+    });
+  };
 
   useEffect(() => {
     gettype();
-    setPage(0)
+    setPage(0);
   }, [typeCode]);
+
+  useEffect(() => {
+    cookie.set('formData', JSON.stringify(formData), {
+      path: "/"
+    });
+
+  }, [formData])
+  
 
   const gettype = async () => {
     const typeFound = await getType(typeCode);
@@ -67,8 +79,27 @@ function DigitalProductSale({ typeCode }) {
       type: typeCode,
       typeDescription: typeFound.description,
       typeImageUrl: typeFound.ImageUrl,
-      coverImageUrl: typeFound.coverImage
-    })
+      coverImageUrl: typeFound.coverImage,
+    });
+  };
+
+  const PaymentMethod = () => {
+    switch (formData.customerPaymentMethod) {
+      case "1":
+        return (
+          <CardPayment
+            formData={formData}
+            setFormData={setFormData}
+            setPage={setPage}
+            page={page}
+            setIsSuccess={setIsSuccess}
+          />
+        );
+      case "2":
+        return <FormPse formData={formData} setFormData={setFormData} />;
+      default:
+        break;
+    }
   };
 
   const componentList = [
@@ -90,20 +121,14 @@ function DigitalProductSale({ typeCode }) {
       page={page}
       setPage={setPage}
     />,
-    <CardPayment
-      formData={formData}
-      setFormData={setFormData}
-      setPage={setPage}
-      page={page}
-      setIsSuccess={setIsSuccess}
-    />,
+    <PaymentMethod />,
     <PaymentValidate
       setPage={setPage}
       page={page}
       isSuccess={isSuccess}
       formData={formData}
       clear={clear}
-    />
+    />,
   ];
 
   const steps = ["Proveedor", "Producto", "Detalle compra", "Pago"];
@@ -113,7 +138,9 @@ function DigitalProductSale({ typeCode }) {
     <div>
       <header className="bg-white divide-y-0">
         <div className="max-w-7xl mx-auto py-0 px-0 sm:px-0 lg:px-0">
-          <h1 className="text-3xl font-bold text-[#28367B]">{formData.typeDescription}!</h1>
+          <h1 className="text-3xl font-bold text-[#28367B]">
+            {formData.typeDescription}!
+          </h1>
         </div>
       </header>
 
@@ -121,7 +148,6 @@ function DigitalProductSale({ typeCode }) {
         className="mr-2 ml-2 pr-3 pl-3 max-w-7xl sm:px-5 lg:px-12"
         style={{ fontFamily: "Arial" }}
       >
-
         <div className="lg:gap-x-10 lg:grid-cols-12 lg:gap-y-8 grid-cols-1 grid">
           <div className="lg:col-span-5 lg:block hidden">
             <img
@@ -134,9 +160,9 @@ function DigitalProductSale({ typeCode }) {
               <button
                 className="h-full w-[5%]"
                 onClick={() => {
-                  if(page == 0 ||  formData.type == 2 && page == 1){
-                    navigate('/');
-                  }else{
+                  if (page == 0 || (formData.type == 2 && page == 1)) {
+                    navigate("/");
+                  } else {
                     setPage(page - 1);
                   }
                 }}
@@ -161,7 +187,7 @@ function DigitalProductSale({ typeCode }) {
                       },
                       "& .MuiStepLabel-root .Mui-active": {
                         color: "#001174",
-                      }
+                      },
                     }}
                   >
                     <StepButton
@@ -181,7 +207,6 @@ function DigitalProductSale({ typeCode }) {
         </div>
       </div>
     </div>
-
   );
 }
 
