@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 import Card from "react-credit-cards";
 import ReactLoading from "react-loading";
+import cookie from "js-cookie";
 
 import SupportedCards from "./Cards";
 import "react-credit-cards/es/styles-compiled.css";
@@ -17,6 +18,8 @@ import {
 import "./styles.css";
 
 import "react-credit-cards/es/styles-compiled.css";
+import { createOrder } from "../../services/digitalProducts";
+import { generateTokenCard } from "../../services/paymentMethods";
 
 export default class CardPayment extends React.Component {
   state = {
@@ -24,6 +27,7 @@ export default class CardPayment extends React.Component {
     name: this.props.formData.cardUserName,
     expiry: this.props.formData.cardExpiry,
     cvc: this.props.formData.cardCvc,
+    paymentToken: 'no ha cambiado',
     issuer: "",
     focused: "",
     formData: null,
@@ -66,6 +70,71 @@ export default class CardPayment extends React.Component {
     this.setState({ [target.name]: target.value });
   };
 
+  createOrderCard = async() => {
+    const request = {
+        type: this.props.formData.type,
+        subType: this.props.formData.subType,
+        productId: this.props.formData.productCode,
+        reference: this.props.formData.customerCellphone,
+        value: this.props.formData.productValue,
+        paymentMethod: 21,
+        paymentToken: this.state.paymentToken,
+        productData: {}
+    }
+    this.setState({isLoading: true});
+    const resp = await createOrder(request);
+    this.setState({isLoading: false});
+    if(resp.success) {
+      alert('orden creada correctamente')
+      cookie.set('order', JSON.stringify(resp), {
+        path: "/"
+      });
+      window.open('http://localhost:3000/payment/summary')
+    } else{
+      alert(resp.message);
+      // setAlertMessage(resp.message);
+      // setStateModal(true);
+    }
+  }
+
+
+  createTokenCard = async()=>{
+    const expMonth = this.state.expiry.substring(0, 2);
+    const expYear = this.state.expiry.substring(3);
+
+    const requestToken = {
+      number: this.state.number.replace(/\s+/g, ""),
+      exp_month: expMonth,
+      exp_year: expYear,
+      cvc: this.state.cvc,
+      card_holder: this.state.name,
+    };
+    const resp = await generateTokenCard(requestToken);
+    this.setState({paymentToken: resp.data.id});
+
+    // const requestPaymentSource = {
+    //   type: "CARD",
+    //   token: resp.data.data.id,
+    //   customer_email: "pepito_perez@example.com",
+    //   acceptance_token: resp.data.presigned_acceptance.acceptance_token
+    // }
+
+    // const respPS = await createPaymentSource(requestPaymentSource);
+
+    // const requesTransaction = {
+    //   amount_in_cents: 4990000, // Monto en centavos
+    //   currency: "COP", // Moneda
+    //   customer_email: "example@gmail.com", // Email del usuario
+    //   payment_method: {
+    //     installments: 2 // Número de cuotas si la fuente de pago representa una tarjeta de lo contrario el campo payment_method puede ser ignorado.
+    //   },
+    //   reference: "sJK4489dDjkd390ds02", // Referencia única de pago
+    //   payment_source_id: resp.data.data.id // ID de la fuente de pago
+    // }
+
+
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const { issuer } = this.state;
@@ -83,10 +152,15 @@ export default class CardPayment extends React.Component {
       cardExpiry: this.state.expiry,
       cardCvc: this.state.cvc,
     });
-    this.getPayment().then(()=>{
-    this.props.setIsSuccess(this.state.isSuccess);
-    this.props.setPage(this.props.page + 1);
-    })
+    this.createTokenCard().then(()=>{
+      console.log(this.state.paymentToken)
+      this.createOrderCard();
+    });
+    
+    // this.getPayment().then(()=>{
+    // this.props.setIsSuccess(this.state.isSuccess);
+    // this.props.setPage(this.props.page + 1);
+    // })
     // this.form.reset();
   };
 

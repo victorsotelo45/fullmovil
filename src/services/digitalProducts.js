@@ -149,6 +149,7 @@ export const getProducts = async (type,subType) => {
 };
 
 export const createOrder = async (body) => {
+  console.log(body)
   return {
       success: true,
       message: 'Orden confirmed as new order',

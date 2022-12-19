@@ -225,3 +225,65 @@ export const getIpClient = async () => {
   }
 };
 
+const urlWompi = 'https://sandbox.wompi.co/v1';
+const keys = {
+  privateKey: 'prv_test_YM68JyEWezP8Gnog0WWiAnIJw1ZKJg6s',
+  publicKey: 'pub_test_9vCyax6rgvYZWW8RhTpuEYiL78L4Q9hV'
+}
+
+export const getAcceptanceToken = async () => {
+  try {
+    const resp = await axios.get(`${urlWompi}/merchants/${keys.publicKey}`);
+    return resp.data;
+  } catch (error) {
+    console.error(error, error.stack);
+    return error.response.data;
+  }
+};
+
+export const generateTokenCard = async (body) => {
+  try {
+    const resp = await axios.post(`${urlWompi}/tokens/cards`, body, {
+      headers: {
+        Authorization: `Bearer ${keys.publicKey}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return resp.data;
+  } catch (error) {
+    console.error(error, error.stack);
+    return error.response.data;
+  }
+};
+
+export const createPaymentSource = async (body) => {
+  try {
+    const resp = await axios.post(`${urlWompi}/payment_sources`, body, {
+      headers: {
+        Authorization: `Bearer ${keys.privateKey}`,
+        language: "es",
+        "Content-Type": "application/json",
+      },
+    });
+    return resp.data;
+  } catch (error) {
+    console.error(error, error.stack);
+    return error.response.data;
+  }
+};
+
+export const createTransactionWompi = async (body) => {
+  try {
+    const resp = await axios.post(`${urlWompi}/transactions`, body, {
+      headers: {
+        Authorization: `Bearer ${keys.privateKey}`,
+        language: "es",
+        "Content-Type": "application/json",
+      },
+    });
+    return resp.data;
+  } catch (error) {
+    console.error(error, error.stack);
+    return error.response.data;
+  }
+};
