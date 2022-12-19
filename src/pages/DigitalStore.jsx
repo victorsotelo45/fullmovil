@@ -10,7 +10,7 @@ import { getTypes } from "../services/digitalProducts";
 function DigitalStore() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { typeCode } = useParams();
+  const params = useParams();
 
   const [types, setTypes] = useState([]);
 
@@ -168,7 +168,7 @@ function DigitalStore() {
       </nav>
       <main>
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          <DigitalProductSale typeCode={typeCode} />
+          <DigitalProductSale params={params} />
         </div>
       </main>
     </div>

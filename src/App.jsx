@@ -45,12 +45,12 @@ function App() {
     isTokenAuthenticated &&
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route exact path="/productType/:typeCode" element={<DigitalStore/>} />
+        <Route exact path={`/productType/:typeCode`} element={<DigitalStore/>} />
+        {/* <Route exact path={`/productType/:typeCode/:subType/*`} element={<DigitalStore/>} /> */}
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/payment/*" element={< PaymentsMethodsRoutes/>} />
-        <Route path="/productType/:typeCode/*" element={<DigitalProductRoutes/>} />
       </Routes>
   
   );

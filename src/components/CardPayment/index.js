@@ -17,7 +17,6 @@ import {
 import "./styles.css";
 
 import "react-credit-cards/es/styles-compiled.css";
-import { PaymentValidate } from "../digitalProductSale/PaymentValidate";
 
 export default class CardPayment extends React.Component {
   state = {
@@ -29,7 +28,7 @@ export default class CardPayment extends React.Component {
     focused: "",
     formData: null,
     isLoading: false,
-    isSuccess: true,
+    isSuccess: false,
   };
 
   getPayment = () => {
