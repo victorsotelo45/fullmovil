@@ -37,8 +37,8 @@ export const FormPse = ({ formData, setFormData }) => {
     return resp;
   };
 
-  const createPseOrder = async() => {
-    const request = {
+  const createPseOrder = async(values) => {
+    const requestData = {
         type: formData.type,
         subType: formData.subType,
         productId: formData.productCode,
@@ -46,17 +46,24 @@ export const FormPse = ({ formData, setFormData }) => {
         value: formData.productValue,
         paymentMethod: 21,
         paymentToken: "29568",
-        productData: {}
+        productData: {},
+        paymentData: {
+          userType: values.personType-1,
+          bank: values.bank,
+          providerDescription: banks[values.bank].bankName,
+          docType:values.documentType,
+          docNumber:values.documentNumber,
+      }
     }
     setIsLoading(true);
-    const resp = await createOrder(request);
+    const resp = await createOrder(requestData);
     setIsLoading(false);
-    if(resp.success) {
+    if(resp.data.success) {
       alert('orden creada correctamente')
       cookie.set('order', JSON.stringify(resp), {
         path: "/"
       });
-      window.open(resp.RedirectUrl)
+      window.location.replace(resp.data.data.RedirectUrl)
     } else{
       setAlertMessage(resp.message);
       setStateModal(true);
@@ -65,6 +72,18 @@ export const FormPse = ({ formData, setFormData }) => {
   useEffect(() => {
     getBank();
   }, []);
+
+  const handleKeyPress = (e) => {
+    var code = e.which ? e.which : e.keyCode;
+    if (code != 13) {
+      if (e.target.value.length >= 10) {
+        e.preventDefault(e.validate);
+      }
+      if (code < 48 || code > 57) {
+        e.preventDefault(e.validate);
+      }
+    }
+  };
 
   return (
     <>
@@ -82,19 +101,21 @@ export const FormPse = ({ formData, setFormData }) => {
       {stateModal && <Modal text={alertMessage} setStateModal={setStateModal} />}
       <Formik
         initialValues={{
+          personType: "",
           bank: "",
           documentType: "",
           documentNumber: "",
         }}
         validationSchema={Yup.object({
-          bank: Yup.string().required("Required"),
-          documentType: Yup.string().required("Required"),
+          personType: Yup.string().required("Campo obligatorio"),
+          bank: Yup.string().required("Campo obligatorio"),
+          documentType: Yup.string().required("Campo obligatorio"),
           documentNumber: Yup.number()
-            .max(9999999999, "Must be 10 characters or less")
-            .required("Required"),
+            .max(9999999999, "Se deben ingresar 10 caracteres")
+            .required("Campo obligatorio"),
         })}
         onSubmit={async (values) => {
-          createPseOrder();
+          createPseOrder(values);
         }}
       >
         <Form className="w-full max-w-sm bg-white shadow-md rounded px-8 py-6 mb-4 mt-2">
@@ -102,6 +123,34 @@ export const FormPse = ({ formData, setFormData }) => {
           <div className="block text-gray-800 font-bold mb-6 text-xl">
             Total a pagar: {formData.productValue}
           </div>
+
+
+          <label
+            className="block text-gray-700 text-sm font-bold mt-4"
+            htmlFor="bank"
+          >
+            Tipo de persona
+          </label>
+          <Field
+            className="bg-[#F6F6F6] shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            name="personType"
+            as="select"
+          >
+            <option value={0}>
+                Seleccione un tipo de persona
+              </option>
+              <option value={1}>
+                Persona natural
+              </option>
+              <option value={2}>
+                Persona jurídica
+              </option>
+          </Field>
+          <div className="text-red-600">
+            <ErrorMessage name="personType" />
+          </div>
+
+
 
           <label
             className="block text-gray-700 text-sm font-bold mt-4"
@@ -154,6 +203,7 @@ export const FormPse = ({ formData, setFormData }) => {
             className="bg-[#F6F6F6] shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             name="documentNumber"
             type="tel"
+            onKeyPress={handleKeyPress}
           />
           <div className="text-red-600">
             <ErrorMessage name="documentNumber" />

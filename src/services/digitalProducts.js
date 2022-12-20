@@ -15,22 +15,22 @@ const url = "https://testapi.rinnapp.co";
 
 let token = cookie.get('token');
 const coverRecharges = 'https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recargas_celular_1024x1024.png';
-const coverEntertaiment= '	https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recarga_entretenimiento_1024x1024.png';
+const coverEntertaiment = '	https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recarga_entretenimiento_1024x1024.png';
 const coverGames = 'https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recargas_juegos1024x1024.png';
 const coverServices = 'https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recargs_licencias_1024x1024.png';
 const coverInsurance = 'https://web.fullmovil.com.co/wp-content/uploads/2022/12/Seguros-Fullmovil-recargas.png';
 const coverBets = 'https://web.fullmovil.com.co/wp-content/uploads/2022/10/Recargas_apuestas_1024x1024.png';
 
 const types =
-[
-    {"code":"2", "description":"Recargas Celular",imageUrl:cellphoneRecharge, coverImage: coverRecharges},
-    {"code":"7", "description":"Paquetes Celular","imageUrl":cellphonePackages, coverImage: coverRecharges },
-    {"code":"15", "description":"Entretenimiento",imageUrl:entertaiment, coverImage: coverEntertaiment},
-    {"code":"13", "description":"Juegos",imageUrl:games, coverImage: coverGames},
-    {"code":"14", "description":"Servicios",imageUrl:services, coverImage: coverServices},
-    {"code":"10", "description":"Seguros",imageUrl:insurance, coverImage: coverInsurance},
-    {"code":"16", "description":"Apuestas",imageUrl:bets, coverImage: coverBets},
-]
+  [
+    { "code": "2", "description": "Recargas Celular", imageUrl: cellphoneRecharge, coverImage: coverRecharges },
+    { "code": "7", "description": "Paquetes Celular", "imageUrl": cellphonePackages, coverImage: coverRecharges },
+    { "code": "15", "description": "Entretenimiento", imageUrl: entertaiment, coverImage: coverEntertaiment },
+    { "code": "13", "description": "Juegos", imageUrl: games, coverImage: coverGames },
+    { "code": "14", "description": "Servicios", imageUrl: services, coverImage: coverServices },
+    { "code": "10", "description": "Seguros", imageUrl: insurance, coverImage: coverInsurance },
+    { "code": "16", "description": "Apuestas", imageUrl: bets, coverImage: coverBets },
+  ]
 
 export const guestAuthentication = async () => {
   const body = {
@@ -44,7 +44,7 @@ export const guestAuthentication = async () => {
     latitude: "0",
     longitude: "0"
   }
-   try {
+  try {
     const resp = await axios.post(`${url}/guest/signIn`, body, {
       headers: {
         language: "es",
@@ -92,30 +92,30 @@ export const guestAuthentication = async () => {
   }
 } */
 
-export const isAuthenticated = ()=>{
+export const isAuthenticated = () => {
   return token ? true : false
 }
 
-export const getType = async (code) => {  
-  
-    try {    
-      /* const response = await axios.get(url,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          language: "es",
-        },
-      }
-    );
-    const types = response.data.data;   */ 
-       
-      const type = types.find((element) => element.code == code);
-      return type;
-  
-    } catch (error) {
-      console.error(error, error.stack);
+export const getType = async (code) => {
+
+  try {
+    /* const response = await axios.get(url,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        language: "es",
+      },
     }
-  };
+  );
+  const types = response.data.data;   */
+
+    const type = types.find((element) => element.code == code);
+    return type;
+
+  } catch (error) {
+    console.error(error, error.stack);
+  }
+};
 
 export const getTypes = async () => {
   try {
@@ -128,7 +128,7 @@ export const getTypes = async () => {
       }
     );
     const types = response.data.data;   */
-    
+
 
     return types;
 
@@ -157,7 +157,7 @@ export const getSubTypes = async (type) => {
   }
 };
 
-export const getProducts = async (type,subType) => {
+export const getProducts = async (type, subType) => {
 
   try {
     const { data: products } = await axios.get(
@@ -168,29 +168,18 @@ export const getProducts = async (type,subType) => {
           language: "es",
         },
       }
-    );   
+    );
     return products.data;
 
   } catch (error) {
     console.error(error, error.stack);
-  
+
   }
 
 };
 
 export const createOrder = async (body) => {
   console.log(body)
-  /* return {
-      success: true,
-      message: 'Orden confirmed as new order',
-      data: { orderId: 1641660599165 },
-      status: 1,
-      statusmsg: 'Nuevo pedido',
-      RedirectUrl: 'http://localhost:3000/payment/psePageSimulation',
-      RedirectUrlFinish: null,
-      paymentId: 'pay_97832123487',
-      paymentType: '+Digital(Nequi)'
-  }; */
   try {
     const resp = await axios.post(`http://localhost:7002/digitalProductOrder`, body, {
       headers: {
@@ -208,7 +197,7 @@ export const createOrder = async (body) => {
 };
 
 export const validatePayment = async (body) => {
-  return {
+  /* return {
       "_id": {
         "$oid": "6397a00ef9ee26392483839e"
       },
@@ -318,18 +307,19 @@ export const validatePayment = async (body) => {
           "date": "diciembre 12º 2022, 4:41:39 pm"
         }
       ]
-  };
-  // try {
-  //   const resp = await axios.post(`${url}/digitalProductOrder/validatePayment`, body, {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       language: "es",
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   return resp.data;
-  // } catch (error) {
-  //   console.error(error, error.stack);
-  //   return error.response.data;
-  // }
+  }; */
+  try {
+    const resp = await axios.post(`http://localhost:7002/digitalProductOrder/validate/${body.paymentId}`, body, {
+      headers: {
+        Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk4N2JlZTk0ODA2MDk5MmQ4NmRjODIiLCJkZXZpY2VJZCI6IjY3NDBkNzM2NTQ2NWJiNWMiLCJrZXkiOiJnYWNjIiwiaWF0IjoxNjcxNTUyNjA0LCJleHAiOjE2NzQxNDQ2MDQsInN1YiI6Imd1ZXN0In0.PfaWvth9V7b0F2eZ7-Fm-A4Byo9lWztR10qPq2if6gI`,
+        language: "es",
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("R1", resp);
+    return resp.data;
+  } catch (error) {
+    console.error(error, error.stack);
+    return error.response.data;
+  }
 };

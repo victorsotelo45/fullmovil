@@ -74,12 +74,13 @@ export const CardPayment = ({ formData, setFormData }) => {
       productId: formData.productCode,
       reference: formData.customerCellphone,
       value: formData.productValue,
-      paymentMethod: 21,
+      paymentMethod: 1,
       paymentToken: tokenId,
       productData: {},
+      paymentData: {},
     };
     const resp = await createOrder(request);
-    if (resp.success) {
+    if (resp.data.success) {
       alert("orden creada correctamente");
       cookie.set("order", JSON.stringify(resp), {
         path: "/",

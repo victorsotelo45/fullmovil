@@ -10,10 +10,16 @@ export const PaymentSummary = () => {
   const [resp, setResp] = useState({});
   const formData = JSON.parse(cookie.get("formData"));
   const navigate = useNavigate();
-
+  const orderData = JSON.parse(cookie.get("order"));
+  const [status, setStatus] = useState(0);
   const validatePaymentOrder = async () => {
-    const request = {};
-    setResp(await validatePayment(request));
+    const request = {
+      paymentId: orderData.data.data.paymentId
+    };
+    console.log("request", request);
+    const response = await validatePayment(request)
+    setResp(response);
+    setStatus(response.data.status)
   };
   const mainStyle = {
     height: "100%",
@@ -25,12 +31,12 @@ export const PaymentSummary = () => {
     BackgroundSize: "cover",
   };
   useEffect(() => {
+    console.log("request");
     validatePaymentOrder();
   }, []);
 
   const StatusPay = () => {
-    console.log(resp.status);
-    switch (resp.status) {
+    switch (status) {
       case 0:
         return (
           <>
@@ -99,7 +105,7 @@ export const PaymentSummary = () => {
               </div>
               <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
               <div className="flex justify-center font-semibold text-2xl">
-                Aprovada
+                Aprobada
               </div>
             </div>
           </>
@@ -338,7 +344,7 @@ export const PaymentSummary = () => {
 
   return (
     <>
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-screen">
         {/*  Site header */}
         <Header />
         {/*  Page content */}

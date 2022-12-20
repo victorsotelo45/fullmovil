@@ -15,7 +15,7 @@ export const PaymentsMethodsRoutes = () => {
         <Route path="/nequi" element={<NequiRecharge/>}/>
         <Route path="/card" element={<CreditCardRecharge/>}/>
         <Route path="/pse" element={<PseRecharge/>}/>
-        <Route path="/summary" element={<PaymentSummary/>}/>
+        <Route path="/summary/*" element={<PaymentSummary/>}/>
         <Route path="/psePageSimulation" element={<PsePageSimulation/>}/>
     </Routes>
   )

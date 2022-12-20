@@ -84,11 +84,12 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
   }, []);
 
   return (
-    <div className="w-full lg:h-[60vh] lg:overflow-y-scroll">
-      <p className="md:text-2xl text-[#28367B] font-['Roboto', Sans-serif] font-extrabold tracking-tight leading-snug mb-4 lg:mb-0 text-left">
+    <div className="w-full lg:h-[60vh] lg:overflow-y-scroll px-4">
+      <p className="md:text-2xl text-[#28367B] font-['Roboto', Sans-serif] font-extrabold tracking-tight leading-snug mb-4 text-left">
         Finalizar
       </p>
-      <form className="w-full max-w-full m-0" onSubmit={formik.handleSubmit}>
+      <div className="flex justify-center">
+      <form className="w-full max-w-full lg:max-w-lg m-0" onSubmit={formik.handleSubmit}>
         <Summary
           page={page}
           setPage={setPage}
@@ -104,7 +105,7 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
             <input
               type="tel"
               ref={inputReference}
-              className='lg:h-[5vh] px-3 sm:text-sm h-10 w-full rounded-md shadow-sm border
+              className='px-3 sm:text-sm h-10 w-full rounded-md shadow-sm border
             border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100 focus:bg-white'
               placeholder="ingrese un valor"
               name="productValue"
@@ -133,7 +134,7 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
             <input
               type="tel"
               ref={formData.type!=2 ? inputReference : undefined}
-              className="lg:h-[5vh] px-3 sm:text-sm h-10 w-full rounded-md shadow-sm border
+              className="px-3 sm:text-sm h-10 w-full rounded-md shadow-sm border
             border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100 focus:bg-white"
               placeholder="ingrese el numero
             celular"
@@ -159,7 +160,7 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
           <div className="mt-1">
             <input
               type="email"
-              className="lg:h-[5vh] px-3 sm:text-sm h-10 w-full rounded-md shadow-sm border
+              className="px-3 sm:text-sm h-10 w-full rounded-md shadow-sm border
             border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-100 focus:bg-white"
               placeholder="correo@correo.com"
               name="email"
@@ -179,7 +180,7 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
           </label>
           <div>
             <select
-              className="h-[5vh] mb-2 w-full rounded-md pr-6 pl-3 border text-gray-700 border-gray-300
+              className="mb-2 w-full rounded-md py-1 pl-3 border text-gray-700 border-gray-300
             placeholder-gray-300 focus:shadow-outline cursor-pointer"
               style={{ fontFamily: "Arial" }}
               name="paymentMethod"
@@ -216,6 +217,7 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
           COMPRAR
         </button>
       </form>
+      </div>
     </div>
   );
 };
