@@ -62,6 +62,36 @@ export const guestAuthentication = async () => {
   }
 }
 
+/* export const guestAuthentication = async () => {
+  const body = {
+    deviceId: "6740d7365465bb5c",
+    appVersion: "2.7.2",
+    deviceMake: "INFINIX MOBILITY LIMITED",
+    deviceModel: "Infinix X692",
+    deviceOsVersion: "10",
+    deviceType: "2",
+    deviceTime: "2022-04-18 21:47:29",
+    latitude: "0",
+    longitude: "0"
+  }
+   try {
+    const resp = await axios.post(`http://localhost:7002/guest/signIn`, body, {
+      headers: {
+        language: "es",
+        "Content-Type": "application/json",
+      },
+    });
+    token = resp.data.data.token;
+    cookie.set('token', token, {
+      path: "/"
+    });
+    console.log(token);
+  } catch (error) {
+    console.error(error, error.stack);
+    console.log(error.response.data);
+  }
+} */
+
 export const isAuthenticated = ()=>{
   return token ? true : false
 }
@@ -150,7 +180,7 @@ export const getProducts = async (type,subType) => {
 
 export const createOrder = async (body) => {
   console.log(body)
-  return {
+  /* return {
       success: true,
       message: 'Orden confirmed as new order',
       data: { orderId: 1641660599165 },
@@ -160,20 +190,21 @@ export const createOrder = async (body) => {
       RedirectUrlFinish: null,
       paymentId: 'pay_97832123487',
       paymentType: '+Digital(Nequi)'
-  };
-  // try {
-  //   const resp = await axios.post(`${url}/customer/order`, body, {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       language: "es",
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   return resp.data;
-  // } catch (error) {
-  //   console.error(error, error.stack);
-  //   return error.response.data;
-  // }
+  }; */
+  try {
+    const resp = await axios.post(`http://localhost:7002/digitalProductOrder`, body, {
+      headers: {
+        Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk4N2JlZTk0ODA2MDk5MmQ4NmRjODIiLCJkZXZpY2VJZCI6IjY3NDBkNzM2NTQ2NWJiNWMiLCJrZXkiOiJnYWNjIiwiaWF0IjoxNjcxNTUyNjA0LCJleHAiOjE2NzQxNDQ2MDQsInN1YiI6Imd1ZXN0In0.PfaWvth9V7b0F2eZ7-Fm-A4Byo9lWztR10qPq2if6gI`,
+        language: "es",
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(resp.data);
+    return resp.data;
+  } catch (error) {
+    console.error(error, error.stack);
+    return error.response.data;
+  }
 };
 
 export const validatePayment = async (body) => {
@@ -182,7 +213,7 @@ export const validatePayment = async (body) => {
         "$oid": "6397a00ef9ee26392483839e"
       },
       "code": "pay_637e41670881294",
-      "status": 5,
+      "status": 6,
       "statusCode": "PAID",
       "type": 6,
       "typeDescription": "Digital without token",

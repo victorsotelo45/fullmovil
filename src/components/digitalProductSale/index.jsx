@@ -3,7 +3,7 @@ import ProductList from "./productList";
 import Checkout from "./checkout";
 import { useState, useEffect } from "react";
 import "./styles.css";
-import CardPayment from "../CardPayment";
+import {CardPayment} from "../CardPayment";
 import { Stepper, Step, StepButton } from "@mui/material";
 import { getProducts, getType } from "../../services/digitalProducts";
 import { PaymentValidate } from "./PaymentValidate";
