@@ -15,9 +15,9 @@ import {
 import "./styles.css";
 
 import { createOrder } from "../../services/digitalProducts";
-import { generateTokenCard } from "../../services/paymentMethods";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../paymentMethods/Modal";
+import { createCardTransaction, getAcceptanceToken, tgetTokenForCard } from "../../services/paymentGateway";
 
 export const CardPayment = ({ formData, setFormData }) => {
 
@@ -29,7 +29,6 @@ export const CardPayment = ({ formData, setFormData }) => {
     paymentToken: "no ha cambiado",
     issuer: "",
     focused: "",
-    isSuccess: false,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -80,16 +79,15 @@ export const CardPayment = ({ formData, setFormData }) => {
       paymentData: {},
     };
     const resp = await createOrder(request);
-    if (resp.data.success) {
-      alert("orden creada correctamente");
+
+    if (!resp.error && resp.success) {
       cookie.set("order", JSON.stringify(resp), {
         path: "/",
       });
       navigate("/payment/summary");
     } else {
-      alert(resp.message);
-      // setAlertMessage(resp.message);
-      // setStateModal(true);
+      setAlertMessage(resp.message);
+      setStateModal(true);
     }
   };
 
@@ -104,8 +102,9 @@ export const CardPayment = ({ formData, setFormData }) => {
       cvc: state.cvc,
       card_holder: state.name,
     };
-    const resp = await generateTokenCard(requestToken);
-    console.log(resp) 
+    const resp = await tgetTokenForCard(requestToken);
+    console.log(resp)
+    
     if(resp.status == 'CREATED'){
       setState({ ...state, paymentToken: resp.data.id });
       return resp.data.id;
@@ -117,27 +116,47 @@ export const CardPayment = ({ formData, setFormData }) => {
    
   };
 
+  const getAcceptanceTokenCard = async() => {
+    const resp = await getAcceptanceToken();
+    console.log(resp.data.presigned_acceptance.acceptance_token);
+    return resp.data.presigned_acceptance.acceptance_token;
+  }
+
+  const createTransaction = async (acceptanceToken, tokenId) =>{
+    const request = {
+      acceptance_token: acceptanceToken,
+      amount_in_cents: formData.productValue*100,
+      currency: "COP",
+      customer_email: formData.customerMail,
+      payment_method: {
+        type: "CARD",
+        token: tokenId,
+        installments: 1,
+        payment_description: "Pago a Tienda Popayan card"
+      },
+      reference: "aaabbbcccdddeeefff002aa",
+      customer_data: {
+        phone_number: formData.customerCellphone,
+        full_name: state.name
+      }
+    };
+    const resp = await createCardTransaction(request);
+    console.log(resp)
+    resp.error ?
+    console.log(resp.error.messages.reference[0]) :
+    console.log(resp.data.status)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     setIsLoading(true);
     const tokenId = await createTokenCard();
     tokenId && await createOrderCard(tokenId);
+    const acceptanceToken = await getAcceptanceTokenCard();
+    acceptanceToken && createTransaction(acceptanceToken, tokenId);
+
     setIsLoading(false);
-
-    // setFormData({
-    //   ...formData,
-    //   cardNumber: state.number,
-    //   cardUserName: state.name,
-    //   cardExpiry: state.expiry,
-    //   cardCvc: state.cvc,
-    // });
-
-    // this.getPayment().then(()=>{
-    // this.props.setIsSuccess(state.isSuccess);
-    // this.props.setPage(this.props.page + 1);
-    // })
-    // this.form.reset();
   };
 
   return (

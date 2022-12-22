@@ -56,16 +56,6 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
     },
   });
 
-  const handleChange = ({ target }) => {
-    setFormData({ ...formData, customerCellphone: target.value });
-  };
-
-  const handleProductClick = () => {
-    setPage(page - 1);
-  };
-  const handleSubTypeClick = () => {
-    setPage(page - 2);
-  };
 
   const handleKeyPress = (e) => {
     var code = e.which ? e.which : e.keyCode;
@@ -180,7 +170,7 @@ const Checkout = ({ page, setPage, formData, setFormData }) => {
           </label>
           <div>
             <select
-              className="mb-2 w-full rounded-md py-1 pl-3 border text-gray-700 border-gray-300
+              className="mb-2 w-full rounded-md py-2 pl-3 border text-gray-700 border-gray-300
             placeholder-gray-300 focus:shadow-outline cursor-pointer"
               style={{ fontFamily: "Arial" }}
               name="paymentMethod"

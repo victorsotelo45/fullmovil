@@ -7,6 +7,7 @@ import DigitalProductSale from "../components/digitalProductSale";
 
 import { getTypes } from "../services/digitalProducts";
 
+
 function DigitalStore() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -22,7 +23,7 @@ function DigitalStore() {
           relative="path"
           className={({ isActive }) =>
             `hover:bg-[#fcb900] text-[#28367B] px-3 py-2 rounded-md text-sm font-bold ${
-              isActive ? "bg-[#fcb900]" : ""
+              isActive ? `bg-[#fcb900]` : ""
             }`
           }
         >
@@ -49,7 +50,7 @@ function DigitalStore() {
 
   return (
     <div >
-      <nav className="bg-[#EC9D13]">
+      <nav className={`bg-[#EC9D13]`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center w-full xl:h-16">
             <div className="flex flex-wrap w-full items-center justify-between">

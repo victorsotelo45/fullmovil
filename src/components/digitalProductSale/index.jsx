@@ -5,9 +5,8 @@ import { useState, useEffect } from "react";
 import "./styles.css";
 import {CardPayment} from "../CardPayment";
 import { Stepper, Step, StepButton } from "@mui/material";
-import { getProducts, getType } from "../../services/digitalProducts";
-import { PaymentValidate } from "./PaymentValidate";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { getType } from "../../services/digitalProducts";
+import {  useNavigate } from "react-router-dom";
 import { FormPse } from "../paymentMethods/pse/FormPse";
 import cookie from "js-cookie";
 
@@ -16,7 +15,6 @@ function DigitalProductSale({ params }) {
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    // ...JSON.parse(cookie.get('formData')),
     type: params.typeCode,
     typeDescription: "",
     typeImageUrl: "",
@@ -45,38 +43,6 @@ function DigitalProductSale({ params }) {
     cardExpiry: "",
     cardCvc: "",
   });
-
-  const clear = () => {
-    setFormData({
-      ...formData,
-      customerMail: "",
-      customerCellphone: "",
-      cardNumber: "",
-      cardUserName: "",
-      cardExpiry: "",
-      cardCvc: "",
-    });
-  };
-  // const getproduct = async (type, subType) => {
-  //   const products = await getProducts(type, subType);
-  //   const { code, description, value, imageUrl }  = products.find(element=>element == params.subType)
-  //   setFormData({
-  //     ...formData,
-  //     productCode: code,
-  //     productDescription: description,
-  //     productValue: value,
-  //     productImageUrl: imageUrl,
-  //   });
-  //   // setIsLoading(false);
-  //   // setProducts(products);
-  // };
-// console.log(params.subType)
-//   useEffect(() => {
-//     if(params.subType){
-//       params.subType != formData.subType && getproduct(); 
-//       setPage(1);
-//     }
-//   }, [])
   
 
   useEffect(() => {
@@ -91,18 +57,6 @@ function DigitalProductSale({ params }) {
     });
   }, [formData]);
 
-  // useEffect(() => {
-  //   console.log(params);
-  //   if (params.subType) {
-  //     if (params.checkout) {
-  //       setPage(2);
-  //     } else {
-  //       setPage(1);
-  //     }
-  //   } else {
-  //     setPage(0);
-  //   }
-  // }, []);
 
   const gettype = async () => {
     const typeFound = await getType(params.typeCode);
@@ -124,7 +78,6 @@ function DigitalProductSale({ params }) {
             setFormData={setFormData}
             setPage={setPage}
             page={page}
-            setIsSuccess={setIsSuccess}
           />
         );
       case "2":
@@ -154,13 +107,6 @@ function DigitalProductSale({ params }) {
       setPage={setPage}
     />,
     <PaymentMethod />,
-    <PaymentValidate
-      setPage={setPage}
-      page={page}
-      isSuccess={isSuccess}
-      formData={formData}
-      clear={clear}
-    />,
   ];
 
   const steps = ["Proveedor", "Producto", "Detalle compra", "Pago"];
@@ -233,67 +179,6 @@ function DigitalProductSale({ params }) {
                 ))}
               </Stepper>
             </div>
-            {/* <Routes>
-              <Route
-                path="/"
-                element={
-                  <ProductSubTypes
-                    formData={formData}
-                    setFormData={setFormData}
-                    page={page}
-                    setPage={setPage}
-                  />
-                }
-              />
-              <Route
-                path="/:subType"
-                element={
-                  <ProductList
-                    formData={formData}
-                    setFormData={setFormData}
-                    page={page}
-                    setPage={setPage}
-                  />
-                }
-              />
-              <Route
-                path="/:subType/checkout"
-                element={
-                  <Checkout
-                    formData={formData}
-                    setFormData={setFormData}
-                    page={page}
-                    setPage={setPage}
-                  />
-                }
-              />
-              <Route path="/paymentMethod" element={<PaymentMethod />} />
-              <Route
-                path="/payment/validate"
-                element={
-                  <PaymentValidate
-                    setPage={setPage}
-                    page={page}
-                    isSuccess={isSuccess}
-                    formData={formData}
-                    clear={clear}
-                  />
-                }
-              />
-            </Routes>
-            <Routes>
-            <Route
-                path="/checkout"
-                element={
-                  <Checkout
-                    formData={formData}
-                    setFormData={setFormData}
-                    page={page}
-                    setPage={setPage}
-                  />
-                }
-              />
-            </Routes> */}
             <div>{componentList[page]}</div>
           </div>
         </div>

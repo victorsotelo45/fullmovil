@@ -4,9 +4,7 @@ import ReactLoading from "react-loading";
 import cookie from "js-cookie";
 import * as Yup from "yup";
 import {
-  createTransaction,
   getPseBanks,
-  rechargePse,
 } from "../../../services/paymentMethods";
 import { Modal } from "../Modal";
 import { createOrder } from "../../../services/digitalProducts";
@@ -23,19 +21,6 @@ export const FormPse = ({ formData, setFormData }) => {
     setBanks(resp);
   };
 
-  const createPseTransaction = async (values) => {
-    const request = {
-      userType: "0",
-      bank: values.bank,
-      providerDescription: banks[values.bank].bankName,
-      value: formData.productValue,
-      docType: values.documentType,
-      docNumber: values.documentNumber,
-      ip: "192.168.20.100",
-    };
-    const resp = await createTransaction("pse", request);
-    return resp;
-  };
 
   const createPseOrder = async(values) => {
     const requestData = {
@@ -58,12 +43,12 @@ export const FormPse = ({ formData, setFormData }) => {
     setIsLoading(true);
     const resp = await createOrder(requestData);
     setIsLoading(false);
-    if(resp.data.success) {
-      alert('orden creada correctamente')
+
+    if(resp.success) {
       cookie.set('order', JSON.stringify(resp), {
         path: "/"
       });
-      window.location.replace(resp.data.data.RedirectUrl)
+      window.location.replace(resp.data.RedirectUrl)
     } else{
       setAlertMessage(resp.message);
       setStateModal(true);

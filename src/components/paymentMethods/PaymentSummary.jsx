@@ -7,20 +7,33 @@ import Header from "../../partials/Header";
 import "./styles.css";
 
 export const PaymentSummary = () => {
-  const [resp, setResp] = useState({});
+  const [resp, setResp] = useState();
   const formData = JSON.parse(cookie.get("formData"));
   const navigate = useNavigate();
   const orderData = JSON.parse(cookie.get("order"));
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(orderData.data.status);
+  const [statusCode, setStatusCode] = useState(orderData.data.statusmsg);
+
   const validatePaymentOrder = async () => {
     const request = {
-      paymentId: orderData.data.data.paymentId
+      paymentId: orderData.data.paymentId,
     };
-    console.log("request", request);
-    const response = await validatePayment(request)
-    setResp(response);
-    setStatus(response.data.status)
+    const response = await validatePayment(request);
+    if(response){
+      setResp(response);
+      if(response.error){
+        setStatus(response.error.status);
+        setStatusCode(response.error.statusCode);
+      }else{
+        setStatus(response.data.status);
+        setStatusCode(response.data.statusCode);
+      }
+    }else{
+      setStatus(4);
+      setStatusCode('Error');
+    }
   };
+ 
   const mainStyle = {
     height: "100%",
     background:
@@ -31,310 +44,201 @@ export const PaymentSummary = () => {
     BackgroundSize: "cover",
   };
   useEffect(() => {
-    console.log("request");
     validatePaymentOrder();
   }, []);
 
-  const StatusPay = () => {
+  const StatusIcon = () => {
     switch (status) {
       case 0:
         return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="text-green-600 w-16 h-16 mx-auto"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
-                  ></path>
-                </svg>
-              </div>
-              <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
-              <div className="flex justify-center font-semibold text-2xl">
-                Creada
-              </div>
-            </div>
-          </>
-        );
-      case 3:
-        return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#fcb900"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-alert-circle"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="12"></line>
-                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-              </div>
-              <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
-              <div className="flex justify-center font-semibold text-2xl">
-                Pendiente
-              </div>
-            </div>
-          </>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="80"
+            height="80"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fcb900"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-alert-circle"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
         );
       case 1:
         return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="text-green-600 w-16 h-16 mx-auto"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
-                  ></path>
-                </svg>
-              </div>
-              <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
-              <div className="flex justify-center font-semibold text-2xl">
-                Aprobada
-              </div>
-            </div>
-          </>
+          <svg viewBox="0 0 24 24" className="text-green-600 w-16 h-16 mx-auto">
+            <path
+              fill="currentColor"
+              d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
+            ></path>
+          </svg>
         );
       case 2:
         return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="red"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-x-circle"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="15" y1="9" x2="9" y2="15"></line>
-                  <line x1="9" y1="9" x2="15" y2="15"></line>
-                </svg>
-              </div>
-              <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
-              <div className="flex justify-center font-semibold text-2xl">
-                Rechazada
-              </div>
-            </div>
-          </>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="80"
+            height="80"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="red"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-x-circle"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
         );
-      case 11:
+      case 3:
         return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="red"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-x-circle"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="15" y1="9" x2="9" y2="15"></line>
-                  <line x1="9" y1="9" x2="15" y2="15"></line>
-                </svg>
-              </div>
-              <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
-              <div className="flex justify-center font-semibold text-2xl">
-                Anulada
-              </div>
-            </div>
-          </>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="80"
+            height="80"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fcb900"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-alert-circle"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
         );
+
       case 4:
         return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="red"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-x-circle"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="15" y1="9" x2="9" y2="15"></line>
-                  <line x1="9" y1="9" x2="15" y2="15"></line>
-                </svg>
-              </div>
-              <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
-              <div className="flex justify-center font-semibold text-2xl">
-                Error
-              </div>
-            </div>
-          </>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="80"
+            height="80"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="red"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-x-circle"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
         );
       case 6:
         return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="text-green-600 w-16 h-16 mx-auto"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
-                  ></path>
-                </svg>
-              </div>
-              <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
-              <div className="flex justify-center font-semibold text-2xl">
-                Pagada
-              </div>
-            </div>
-          </>
+          <svg viewBox="0 0 24 24" className="text-green-600 w-16 h-16 mx-auto">
+            <path
+              fill="currentColor"
+              d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
+            ></path>
+          </svg>
         );
       case 7:
         return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#fcb900"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-alert-circle"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="12"></line>
-                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-              </div>
-              <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
-              <div className="flex justify-center font-semibold text-2xl">
-                Cotizada
-              </div>
-            </div>
-          </>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="80"
+            height="80"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fcb900"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-alert-circle"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
         );
       case 8:
         return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#fcb900"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-alert-circle"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="12"></line>
-                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-              </div>
-              <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
-              <div className="flex justify-center font-semibold text-2xl">
-                De invitado a cliente
-              </div>
-            </div>
-          </>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="80"
+            height="80"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fcb900"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-alert-circle"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
         );
       case 9:
         return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="red"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-x-circle"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="15" y1="9" x2="9" y2="15"></line>
-                  <line x1="9" y1="9" x2="15" y2="15"></line>
-                </svg>
-              </div>
-              <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
-              <div className="flex justify-center font-semibold text-2xl">
-                Cancelado
-              </div>
-            </div>
-          </>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="80"
+            height="80"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="red"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-x-circle"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
+        );
+      case 11:
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="80"
+            height="80"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="red"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-x-circle"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
         );
 
       case 12:
         return (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#fcb900"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-alert-circle"
-                >
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="12"></line>
-                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-              </div>
-              <h2 className="text-gray-800 customFont mt-3">Estado del pago</h2>
-              <div className="flex justify-center font-semibold text-2xl">
-                Refundada
-              </div>
-            </div>
-          </>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="80"
+            height="80"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fcb900"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-alert-circle"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
         );
 
       default:
@@ -344,12 +248,12 @@ export const PaymentSummary = () => {
 
   return (
     <>
-      <div className="flex flex-col h-screen">
+      <div className="flex flex-col min-h-screen overflow-hidden">
         {/*  Site header */}
         <Header />
         {/*  Page content */}
         <main className="flex-grow" style={mainStyle}>
-          <div className="w-full pt-16 h-full px-3 grid content-center">
+          <div className="w-full pt-16 px-3 grid content-center">
             <div className="flex justify-center pt-4">
               <div className="max-w-lg shadow-lg bg-white rounded pb-4">
                 <div className="bg-[#001174] text-white p-6">
@@ -357,7 +261,15 @@ export const PaymentSummary = () => {
                 </div>
                 <div className="grid md:grid-cols-2 items-center">
                   <div className="py-4 px-6">
-                    <div className="text-gray-800 customFont">Proveedor</div>
+                    <div className="text-gray-800 customFont">
+                      Identificación de pago
+                    </div>
+                    <div className="customFont text-[#001174]">
+                      {orderData.data.paymentId}
+                    </div>
+                    <div className="text-gray-800 mt-4 customFont">
+                      Proveedor
+                    </div>
                     <div className="customFont text-[#001174]">
                       {formData.subTypeDescription}
                     </div>
@@ -384,15 +296,20 @@ export const PaymentSummary = () => {
                       {formData.paymentMethodDescription}
                     </div>
                   </div>
-
-                  <StatusPay />
+                  <div>
+                  <div className="flex justify-center">
+                    <StatusIcon />
+                  </div>
+                  <h2 className="text-gray-800 customFont mt-3">
+                    Estado del pago
+                  </h2>
+                  <div className="flex justify-center font-semibold text-2xl">
+                    {status==1?'Éxito':statusCode}
+                  </div>
+                  
+                  
+                  </div>
                 </div>
-                {/* <h2 className="text-gray-800 customFont mt-3">
-                      Estado del pago
-                    </h2>
-                    <div className="flex justify-center font-semibold text-2xl">
-                      {resp.status == 6 ? "Pagado" : resp.statusCode}
-                    </div> */}
               </div>
             </div>
 

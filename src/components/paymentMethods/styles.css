@@ -5,14 +5,3 @@
 .customFont{
     font-family: 'muli_bold';
 }
-.animationModal{
-  animation-name: modal;
-  animation-duration: 1s;
-  bottom:0;
-  left: 0px;
-  right: 0px;
-}
-@keyframes modal {
-  from{bottom:-330px;}
-  to{bottom:0;}
-}
