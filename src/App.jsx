@@ -17,6 +17,7 @@ import ResetPassword from './pages/ResetPassword';
 import DigitalStore from './pages/DigitalStore';
 import { guestAuthentication, isAuthenticated } from './services/digitalProducts';
 import { PaymentSummary } from './components/paymentMethods/PaymentSummary';
+import { setSessionId } from './services/paymentGateway';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
 
   useEffect(() => {
     !isTokenAuthenticated && guestAuthentication().then(()=>{ setIsTokenAthenticated(true)});
+    setSessionId();
     AOS.init({
       once: true,
       disable: 'phone',

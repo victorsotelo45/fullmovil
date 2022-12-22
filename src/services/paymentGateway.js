@@ -16,6 +16,16 @@ export const tgetTokenForCard = async (body) => {
   }
 };
 
+export const setSessionId = () =>  {
+    window.$wompi.initialize(function (data, error) {
+        if (error === null) {
+          const sessionId = data.sessionId;
+          sessionStorage.setItem('sessionId', sessionId);
+          // `sessionId` es un string, por ejemplo: "1289_1696830983722-ab493d40c02e-278bab34-323va3"
+        }
+      });
+}
+
 export const getAcceptanceToken = async () => {
   try {
     const resp = await axios.get(
